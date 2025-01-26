@@ -1,10 +1,8 @@
 "use client";
 import Image from 'next/image';
 import FormComponent from './ChangePassword';
-import { useSelector } from "react-redux";
 
 function ChangePassword() {
-  // const { infoData } = useSelector((state: any) => state.counter)
   return (
     <main className="py-5 md:px-9">
       <div className=" bg-no-repeat bg-contain bg-bottom max-lg:pb-44  h-[calc(100vh-220px)] flex items-center">

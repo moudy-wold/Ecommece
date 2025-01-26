@@ -4,36 +4,20 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { CiSearch } from "react-icons/ci";
-// import { useDispatch, useSelector } from "react-redux";
-// import type { AppDispatch } from "@/app/lib/store";
 import { GrUserAdmin } from "react-icons/gr";
 import { usePathname } from "next/navigation";
 import { IoMdClose } from "react-icons/io";
-// import { getInfoRedux } from "@/app/lib/services/Info";
-import dynamic from 'next/dynamic'
-import { CiLogin } from "react-icons/ci";
-// import BurgerMenu from "@/app/components/global/BurgerMenu/BurgerMenu";
 import { IoMdCart } from "react-icons/io"
 import UserIcons from "../UserIcons/UserIcons";
 import SearchProducts from "../Search/SearchProducts/SearchProducts";
-// const UserIcons = dynamic(() => import('../UserIcons/UserIcons'), { ssr: false })
-// const SearchProducts = dynamic(() => import('../Search/SearchProducts/SearchProducts'), { ssr: false })
-
-type Props = {
-  infoData: any
-}
+import SidebarAndburgerMenu from "@/app/components/Global/SidebarAndburgerMenu/SidebarAndburgerMenu"
+ 
 function Navbar() {
   const path = usePathname();
-  const [isLoggend, setIsLoggend] = useState<any>();
   const [openSearch, setOpenSearch] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isEmployee, setIsEmployee] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
-  // const dispatch = useDispatch<AppDispatch>();
-
-
-
+  const [openBurgerMenu, setOpenBurgerMenu] = useState(false)
   useEffect(() => {
     if (window.innerWidth < 1023) {
       setIsMobile(true);
@@ -55,12 +39,12 @@ function Navbar() {
             <GiHamburgerMenu
               className="text-3xl"
               onClick={() => {
+                setOpenBurgerMenu(!openBurgerMenu)
               }}
             />
-            {isMobile &&
-              <div className="absolute">
-                {/* <BurgerMenu infoData={infoData} /> */}
-              </div>}
+              <div className={`${openBurgerMenu ? "left-0" : "-left-[100%]" } absolute transation-all duration-200`}>
+                <SidebarAndburgerMenu  />
+              </div> 
           </div>
           {/* End BurgerMenu /}
 
@@ -85,7 +69,7 @@ function Navbar() {
               <> <CiSearch className={` -ml-1  text-xl cursor-pointer `} onClick={() => setOpenSearch(!openSearch)} /> </>
             )}
             <div className={`${openSearch ? " right-1/2 translate-x-1/2  " : " -right-[110%] "} absolute !z-50 top-10 transition-all duration-250 w-[95%] md:w-3/5  `}>
-              {/* <SearchProducts locale={locale} setOpenSearch={setOpenSearch} store={isAdmin && path.includes("admin") ? true : false} /> */}
+              <SearchProducts  setOpenSearch={setOpenSearch} store={false} />
             </div>
 
           </div>

@@ -1,12 +1,12 @@
 import React from "react";
-import Register from "@/app/[locale]/components/page/Auth/Register/PageContent";
+import Register from "@/app/components/Pages/Auth/Register/PageContent";
 
- 
-async function Page({ params: { locale } }: LocaleParams) {
+
+async function Page() {
   return (
-   <div className="">
-    <Register locale={locale} />
-   </div>
+    <div className="">
+      <Register />
+    </div>
   );
 }
 

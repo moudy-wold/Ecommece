@@ -42,7 +42,7 @@ function AdsSlder({ data }: Props) {
                 alt={"item.image"}
                 height={250}
                 width={1000}
-                className="!w-full"
+                className="!w-full object-contain"
               />
             </div>
           </SwiperSlide>

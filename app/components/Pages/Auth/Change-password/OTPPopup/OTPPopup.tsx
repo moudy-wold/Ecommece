@@ -3,13 +3,10 @@ import React, { useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import {  Form, Input, notification } from "antd";
-import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/[locale]/api/auth";
+import { Form, Input, notification } from "antd";
+import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/api/Front/auth";
 import { useForm } from "antd/es/form/Form";
-import { useTranslation } from "@/app/i18n/client";
-import dynamic from 'next/dynamic'
-
-const Loader = dynamic(() => import('@/app/[locale]/components/global/Loader/Loader'), { ssr: false })
+import Loader from "@/app/components/Global/Loader/Loader";
 
 type FieldType = {
   otp: string;
@@ -19,7 +16,6 @@ type FieldType = {
 };
 
 const OTPPopup = (props: any) => {
-  const { t } = useTranslation(props.locale, "common");
   const [form] = useForm();
   const path = usePathname();
   const router = useRouter();
@@ -52,7 +48,7 @@ const OTPPopup = (props: any) => {
         console.log(res.status);
         if (res.status) {
           notification.success({
-            message: t("the_code_has_been_resent"),
+            message: "the_code_has_been_resent",
           });
         }
       })
@@ -78,7 +74,7 @@ const OTPPopup = (props: any) => {
           if (res.status) {
             setIsLoading(false);
             notification.success({
-              message: t("code_has_been_sent_to_email"),
+              message: "code_has_been_sent_to_email",
             });
             props.setOpenVerifyPopup(false);
           }
@@ -98,7 +94,7 @@ const OTPPopup = (props: any) => {
             router.push("/auth/login");
           }
           notification.success({
-            message: t("account_verified_successfully"),
+            message: "account_verified_successfully",
           });
           props.setOpenVerifyPopup(false);
         })
@@ -167,10 +163,10 @@ const OTPPopup = (props: any) => {
             />
           </button>
           <h2 className=" font-bold text-3xl text-[#003459] mb-2">
-            {t("verification_code")}
+            Verification Code
           </h2>
           <p className="text-[#00171F]  w-full mt-5">
-            {t("enter_6_verification_code")}
+            Enter 6 VerificationCode
           </p>
           <Form.Item<FieldType> name="otp">
             <OtpInput
@@ -197,15 +193,15 @@ const OTPPopup = (props: any) => {
             />
           </Form.Item>
           <div className="flex items-center justify-cetner text-center gap-3 mb-10 w-full ">
-            <p className=" text-[#00171F]"> {t("didnt_you_receive_code")} </p>
+            <p className=" text-[#00171F]"> Didnt You Receive Code </p>
             <p
               className={`text-[#006496] underline cursor-pointer 
             ${resendDisabled && "text-gray-500"}`}
               onClick={handleResendOTP}
             >
               {resendDisabled
-                ? `${ t("resend_in")} ${countdown}  ${t("second")}`
-                : t("rebroadcast")}
+                ? `Resend_in" ${countdown} Ssecond`
+                : ("Rebroadcast")}
             </p>
           </div>
           {props.emailValue && (
@@ -214,16 +210,16 @@ const OTPPopup = (props: any) => {
                 name="password"
                 className="w-full"
                 rules={[
-                  { required: true, message: t("please_enter_password") },
+                  { required: true, message: "Please Enter Password" },
                   {
                     min: 8,
                     message:
-                      t("password_must_least_8_characters_long"),
+                      "password_must_least_8_characters_long",
                   },
                 ]}
               >
                 <Input.Password
-                  placeholder={t("password")}
+                  placeholder="Password"
                   className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
                 />
               </Form.Item>
@@ -233,20 +229,20 @@ const OTPPopup = (props: any) => {
                 dependencies={["password"]}
                 className="w-full"
                 rules={[
-                  { required: true, message: t("please_confirm_password") },
+                  { required: true, message: "Please confirm_password" },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
                       if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error(t("password_does_not_match")));
+                      return Promise.reject(new Error("Password Does Not Match"));
                     },
                   }),
                 ]}
               >
                 <div>
                   <Input.Password
-                    placeholder={t("confirm_password")}
+                    placeholder="Confirm Password"
                     className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
                   />
                 </div>
@@ -265,8 +261,7 @@ const OTPPopup = (props: any) => {
             type="submit"
             className="w-full bg-[#006496] text-white font-bold text-xl lg:text-2xl  rounded-xl flex items-center justify-center pb-2 pt-2 hover:text-[#006496] hover:bg-white border-2 border-[#006496] transition-all duration-150"
           >
-            {" "}
-            {t("confirm")}
+            Confirm
           </button>
         </div>
       </Form>

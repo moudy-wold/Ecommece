@@ -8,7 +8,7 @@ function Register() {
   // const { infoData } = useSelector((state: any) => state.counter)
   return (
     <main className="py-5 md:px-9 min-h-[calc(100vh-221px)]">
-      <div className="bg-[url('/auth-bg.svg')] bg-no-repeat bg-contain bg-bottom max-lg:pb-44 auth-bg">
+      <div className=" lg-contain bg-bottom max-lg:pb-44  ">
         <div className=" flex justify-center">
           <Image
             // src={infoData?.data?.logo != "" && infoData?.data?.logo != undefined ? infoData?.data?.logo : "/assets/logo.png"}

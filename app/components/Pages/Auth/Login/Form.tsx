@@ -1,14 +1,11 @@
-import { Login } from "@/app/api/Front/auth";
 import Loader from "@/app/components/Global/Loader/Loader";
 import { Form, Input, notification } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import '@ant-design/v5-patch-for-react-19';
-
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import { setIsLogend } from "@/app/lib/todosSlice";
+import { signIn } from "next-auth/react";
 
 type FieldType = {
   email?: string;
@@ -20,27 +17,36 @@ function FormComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
+
   const onFinish = async (data: FieldType) => {
+
     try {
       setIsLoading(true);
-      Cookies.remove("token");
-      const res = await Login(data);
-      console.log(res)
-      setIsLoading(false);
-      notification.success({
-        message: "Registration completed successfully",
-      });
-      Cookies.set("token", res.data.token, { expires: 7, path: "/" });
-      localStorage.setItem("user_role", JSON.stringify(res?.data?.user_role));
-      dispatch(setIsLogend());
-      router.back();
 
+      const res = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+
+      if (res?.error) {
+        console.log(res?.error)
+        notification.error({
+          message: res?.error || "An error occurred while logging in.",
+        });
+      } else {
+        notification.success({
+          message: "Registration completed successfully",
+        });
+        router.back();
+      }
     } catch (err: any) {
-      setIsLoading(false);
       console.error(err);
       notification.error({
-        message: err.response?.data?.message || "An error occurred",
+        message: err.message || "An error occurred while logging in.",
       });
+    }finally{
+      setIsLoading(false)
     }
   };
 

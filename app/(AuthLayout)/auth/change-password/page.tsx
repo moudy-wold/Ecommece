@@ -1,11 +1,10 @@
-import ChangePassword from "@/app/[locale]/components/page/Auth/Change-password/PageContent";
 import Reacr from "react";
+import ChangePassword from "@/app/components/Pages/Auth/Change-password/PageContent";
 
-
-async function Page({ params: { locale } }: LocaleParams) {
-  return(
+async function Page() {
+  return (
     <div className="">
-        <ChangePassword locale={locale}/>
+      <ChangePassword />
     </div>
   )
 }

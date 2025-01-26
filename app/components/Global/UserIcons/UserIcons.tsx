@@ -12,68 +12,71 @@ import { GrUserAdmin } from "react-icons/gr";
 import { BsArrowsExpandVertical } from "react-icons/bs";
 import { IoMdCart } from "react-icons/io";
 import { CiLogin } from "react-icons/ci";
+import { signOut, useSession } from "next-auth/react";
 
 type Props = {
   isMobile: boolean
 }
 function UserIcons({ isMobile }: Props) {
-  // const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);
-  const [isLoggend, setIsLoggend] = useState<any>();
+  const [isLogged, setIsLogged] = useState<any>();
   const [wishListLength, setWishListLength] = useState<number>(2);
 
+  const { data: session } = useSession();
 
   useEffect(() => {
-    const user: any = localStorage.getItem("user_role");
-    if (user != undefined) {
-      if (JSON.parse(user) == "admin") {
+    if (session?.user) {
+      setIsLogged(true);
+      if ((session.user as any).user_role === "admin") {
         setIsAdmin(true);
+      }else{
+        setIsAdmin(false)
       }
-      setIsLoggend(true);
+    }else{
+      setIsLogged(false)
     }
-  }, []);
+  }, [session]);
 
-  // Log Out
+
   const handleLogOut = async () => {
-    setOpenLogOut(false)
+    setOpenLogOut(false);
     setIsLoading(true);
 
     try {
+      await signOut({
+        redirect: false,
+        callbackUrl: "/",
+      });
 
-      await LogOut();
       notification.success({
-        message: "logout_success",
+        message: "Logout successful",
       });
 
-      localStorage.clear();
       setTimeout(() => {
-        window.location.reload();
+        window.location.reload;
       }, 100);
-      router.push("/");
+    } catch (err: any) {
+      console.error(err);
 
-    }
-    catch (err: any) {
-      console.log(err)
       notification.error({
-        message: err.response.data.message,
+        message: "An error occurred while logging out",
       });
-    }
-    finally {
+    } finally {
       setIsLoading(false);
-      setOpenLogOut(false)
-    };
+      setOpenLogOut(false);
+    }
   };
 
   const profile_items = [
-      {
-        label: "profile",
-        key: "1",
-        icon: <FaUserAlt className=" text-sm text-[#8c8c8c]" />,
-        url: `/user-profile`,
-      },
+    {
+      label: "profile",
+      key: "1",
+      icon: <FaUserAlt className=" text-sm text-[#8c8c8c]" />,
+      url: `/user-profile`,
+    },
     {
       label: "logout",
       key: "2",
@@ -99,7 +102,7 @@ function UserIcons({ isMobile }: Props) {
 
         {/* Start Profile Icon */}
         <div className=" felx flex-col justify-center items-center relative  !z-[99999999] hover:scale-110 transition-all duration-200 ">
-          {isLoggend ? (
+          {isLogged ? (
             <div
               className="flex items-center flex-col relative cursor-pointer mt-[2px]"
               onMouseEnter={handleMouseEnterOnProfileIcon}

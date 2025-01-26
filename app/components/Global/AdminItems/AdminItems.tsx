@@ -9,9 +9,9 @@ import { RxSection } from "react-icons/rx";
 function AdminItems() {
     const AdminItemss: SidebarMenuItemTypes[] = [
         {
-            label: <Link  href="/admin/products/create">Add Phones</Link>,
+            label: <Link  href="/admin/products/create">Add Product</Link>,
             key: "1",
-            icon: <BiCustomize />,
+            icon: <CiCirclePlus/>,
             url: "/admin/products/create",
         },
         {
@@ -22,7 +22,7 @@ function AdminItems() {
                 {
                     label: <Link href="/admin/category/679437f84f76e9c406d00182">Phones</Link>,
                     key: "1.1",
-                    icon: <CiCirclePlus />,
+                    icon: <BiCustomize  />,
                 },
                 {
                     label: <Link href="/admin/category/6794385a4f76e9c406d00183">Laptop</Link>,

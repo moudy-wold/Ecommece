@@ -12,7 +12,6 @@ axiosInstance.interceptors.request.use(async (config) => {
     config.headers["Content-Type"] = "multipart/form-data";
   }
   // config.headers.Authorization = `Bearer ${token}`;
-  config.headers["Accept"] = "/";
 
   return config;
 });
@@ -22,23 +21,16 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error: any) => {
-    console.log(error, "qqqqqqqqqqqqqqqqqqq");
+    console.log(error);
 
     if (
       error?.response?.data?.message == "Unauthorized" ||
       error?.response?.data?.message == "Unauthenticated."
     ) {
-      console.log(error?.response?.data, "Unauthorizeddddddddddddddddddddddd");
+      console.log(error?.response?.data, "Unauthorized");
       await RedirectInCsc();
     }
-    if (
-      error?.response?.status === 403 &&
-      !error?.response?.data?.plan_expire
-    ) {
-      console.log(403, "expirrrrrrre");
-      await RedirectInCsc();
-    }
-     
+
     return Promise.reject(error);
   }
 );

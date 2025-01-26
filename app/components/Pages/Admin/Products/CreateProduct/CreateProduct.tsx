@@ -81,7 +81,7 @@ function CreateProduct() {
         layout="vertical"
         onFinish={onFinish}
         onFinishFailed={handleFinishFailed}
-        className="lg:grid lg:grid-cols-2 gap-4"
+        className="lg:grid lg:grid-cols-2 gap-2"
       >
         {/* Start Image */}
         <div>
@@ -147,10 +147,7 @@ function CreateProduct() {
         </Form.Item>
         {/* End Price */}
 
-
-
         {/* start description */}
-
         <Form.Item<FieldType>
           name="description"
           label={<span className="text-sm md:text-base"> Description</span>}
@@ -159,6 +156,7 @@ function CreateProduct() {
           <Input.TextArea className="!rounded-[8px] !py-3" />
         </Form.Item>
         {/* End description */}
+        
         {/* Start category */}
         <Form.Item<FieldType>
           name="category_id"
@@ -166,17 +164,18 @@ function CreateProduct() {
           rules={[{ required: true, message: "Please Select Category" }]}
         >
           <Select
-            defaultValue="phones"
+            initialValues=""
             style={{ width: 120 }}
             allowClear
             options={CategoryList}
-            placeholder="select it"
+            placeholder="select it" 
+            className="!w-[300px] p-1 h-14"
           />
         </Form.Item>
         {/* End Category */}
         <button
           type="submit"
-          className="border-2 border-[#006496] rounded-full  mt-5 w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+          className="col-span-2 w-20 border-2 border-[#006496] rounded-full  mt-5 py-2 text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
         >
           Add
         </button>
