@@ -21,33 +21,29 @@ function UserIcons({ isMobile }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isEmployee, setIsEmployee] = useState(false);
-  const [id, setId] = useState("");
   const [openLogOut, setOpenLogOut] = useState(false);
   const [isLoggend, setIsLoggend] = useState<any>();
   const [wishListLength, setWishListLength] = useState<number>(2);
 
 
   useEffect(() => {
-    const user: any = localStorage.getItem("userRole");
+    const user: any = localStorage.getItem("user_role");
     if (user != undefined) {
       if (JSON.parse(user) == "admin") {
         setIsAdmin(true);
-      } else if (JSON.parse(user) == "employee") {
-        setIsEmployee(true);
       }
       setIsLoggend(true);
     }
-
-
   }, []);
 
   // Log Out
   const handleLogOut = async () => {
+    setOpenLogOut(false)
     setIsLoading(true);
+
     try {
 
-      const res = await LogOut();
+      await LogOut();
       notification.success({
         message: "logout_success",
       });
@@ -72,12 +68,12 @@ function UserIcons({ isMobile }: Props) {
   };
 
   const profile_items = [
-    {
-      label: "profile",
-      key: "1",
-      icon: <FaUserAlt className=" text-sm text-[#8c8c8c]" />,
-      url: `/user-profile`,
-    },
+      {
+        label: "profile",
+        key: "1",
+        icon: <FaUserAlt className=" text-sm text-[#8c8c8c]" />,
+        url: `/user-profile`,
+      },
     {
       label: "logout",
       key: "2",
@@ -182,15 +178,16 @@ function UserIcons({ isMobile }: Props) {
         {/* End WishList Icon */}
 
         {/* Start Cart Icon */}
-        <div className=" hover:scale-110 transition-all duration-200 ">
-          <Link
-            href={`/cart`}
-            className="flex !flex-col justify-center items-center "
-          >
-            <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
-            <p className="hidden lg:block mt-1 text-center text-sm">Cart</p>
-          </Link>
-        </div>
+        {!isAdmin &&
+          <div className=" hover:scale-110 transition-all duration-200 ">
+            <Link
+              href={`/cart`}
+              className="flex !flex-col justify-center items-center "
+            >
+              <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
+              <p className="hidden lg:block mt-1 text-center text-sm">Cart</p>
+            </Link>
+          </div>}
         {/* End WishList Icon */}
 
         {/* Start DashBoard Icon */}

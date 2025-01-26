@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Menu, MenuProps, Space, Spin } from "antd";
 import { useSelector } from "react-redux";
 // import { setcategoryId } from "@/app/lib/todosSlice";
-import { GetAllCategories } from "@/app/api/Front/category";
+import { GetAllCategories } from "@/app/api/Front/categories";
 import MenuItems from "../MenuItems/MenuItems";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +21,7 @@ import { FaFirstOrderAlt } from "react-icons/fa";
 import { SiFoursquarecityguide } from "react-icons/si";
 import { TbCategoryFilled } from "react-icons/tb";
 import { SidebarMenuItemTypes } from "@/utils/types";
+import AdminItems from "../AdminItems/AdminItems";
 
 
 
@@ -28,46 +29,8 @@ function Sidebar() {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [current, setCurrent] = useState("0");
-
-  const AdminItems: SidebarMenuItemTypes[] = [
-    {
-      label: <Link href="/admin/products/create">Add Phones</Link>,
-      key: "1",
-      icon: <BiCustomize />,
-      url: "/admin/products/create",
-    },
-
-    {
-      label: "Sections",
-      key: "5.5",
-      icon: <RxSection />,
-      url: "/",
-      children: [
-        {
-          label: <Link href="/admin/category/679437f84f76e9c406d00182">Phones</Link>,
-          key: "1.1",
-          icon: <CiCirclePlus />,
-        },
-        {
-          label: <Link href="/admin/category/6794385a4f76e9c406d00183">Laptop</Link>,
-          key: "1.2",
-          icon: <BiCustomize />,
-        },
-        {
-          label: <Link href="admin/category/6794386d4f76e9c406d00184">Screens</Link>,
-          key: "1.3",
-          icon: <BiCustomize />,
-        },
-      ],
-    },
-    {
-      label: <Link href="/admin/orders"> Orders</Link>,
-      key: "3333",
-      icon: <FaBorderNone />,
-      url: "/admin/orders",
-    },
-  ];
-
+  const Items = AdminItems()
+  
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
   };
@@ -100,7 +63,7 @@ function Sidebar() {
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             mode="inline"
-            items={AdminItems}
+            items={Items}
           />
         </div>
       </div>

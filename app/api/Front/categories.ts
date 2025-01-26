@@ -11,7 +11,7 @@ export type Category ={
 // FOR ADMINS
 
 export async function GetAllCategories(): Promise<AxiosResponse<any>>{
-    return await axios.get("/api/shop/categories");
+    return await axios.get("/category");
 }
  
 export async function AddCategory(name:object): Promise<AxiosResponse<any>>{

@@ -3,16 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 export const counterSlice = createSlice({
   name: "counter",
   initialState: {
-   admin:false,
+    islogendRedux: false,
   },
   reducers: {
-    
+    setIsLogend: (state) => { 
+      state.islogendRedux = !state.islogendRedux;
+    },
   },
-   
 });
 
-export const {
-  
-} = counterSlice.actions;
+export const { setIsLogend } = counterSlice.actions;
 
 export default counterSlice.reducer;

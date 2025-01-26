@@ -4,54 +4,40 @@ import { Form, Input, notification } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import '@ant-design/v5-patch-for-react-19';
 
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import { setIsLogend } from "@/app/lib/todosSlice";
 
 type FieldType = {
-  phoneNumber?: string;
+  email?: string;
   password?: string;
-  remember?: string;
 };
 
 function FormComponent() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [obj, setObj] = useState({});
   const router = useRouter();
 
-  const onFinish = async () => {
+  const onFinish = async (data: FieldType) => {
     try {
       setIsLoading(true);
       Cookies.remove("token");
-      const res = await Login(obj);
-      if (res.status === 201) {
-        setIsLoading(false);
-        notification.success({
-          message: "Registration completed successfully",
-        });
+      const res = await Login(data);
+      console.log(res)
+      setIsLoading(false);
+      notification.success({
+        message: "Registration completed successfully",
+      });
+      Cookies.set("token", res.data.token, { expires: 7, path: "/" });
+      localStorage.setItem("user_role", JSON.stringify(res?.data?.user_role));
+      dispatch(setIsLogend());
+      router.back();
 
-        Cookies.set("token", res.data.token, { expires: 7, path: "/" });
-        localStorage.setItem("userRole", JSON.stringify(res?.data?.data?.role));
-        localStorage.setItem("userId", JSON.stringify(res.data.data._id));
-        const ids = res?.data?.data?.Wishlists?.map((obj: any) => obj._id);
-        localStorage.setItem("userWishList", JSON.stringify(ids));
-
-        // dispatch(setIsLogend());
-
-        // if (res?.data?.data?.role === "admin") {
-        //   dispatch(setIsAdmin(true));
-        // } else if (res?.data?.data?.role === "employee") {
-        //   dispatch(setIsEmployee(true));
-        // }
-
-        router.back();
-
-      }
     } catch (err: any) {
       setIsLoading(false);
       console.error(err);
-
       notification.error({
         message: err.response?.data?.message || "An error occurred",
       });
@@ -68,23 +54,17 @@ function FormComponent() {
         autoComplete="off"
       >
         <Form.Item
-          name="phoneNumber"
+          name="email"
           rules={[
             {
               required: true,
-              message: "Please enter the phone number correctly!",
+              message: "Please enter Email correctly!",
             },
           ]}
         >
           <Input
-            placeholder={"Phone Number:"}
+            placeholder={"Email"}
             className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
-            onChange={(e) =>
-              setObj((prevState) => ({
-                ...prevState,
-                phoneNumber: e.target.value,
-              }))
-            }
           />
         </Form.Item>
 
@@ -95,14 +75,8 @@ function FormComponent() {
           ]}
         >
           <Input.Password
-            placeholder={"password"}
+            placeholder="Password"
             className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
-            onChange={(e) =>
-              setObj((prevState) => ({
-                ...prevState,
-                password: e.target.value,
-              }))
-            }
           />
         </Form.Item>
 
@@ -138,3 +112,4 @@ function FormComponent() {
 }
 
 export default FormComponent;
+

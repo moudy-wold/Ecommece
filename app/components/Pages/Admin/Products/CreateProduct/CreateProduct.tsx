@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button, Form, Input, Upload, notification, } from "antd";
+import { Button, Form, Input, Select, Upload, notification, } from "antd";
 import { useForm } from 'antd/es/form/Form';
 import { AddProduct } from "@/app/api/Front/products";
 import Loader from '@/app/components/Global/Loader/Loader';
 import { useRouter } from 'next/navigation';
 import Image from "next/image"
 import { IoInformationCircleOutline } from "react-icons/io5";
+import { CategoryList } from "@/utils/constant";
 
 type FieldType = {
   id: string,
@@ -14,6 +15,7 @@ type FieldType = {
   name: string,
   price: string,
   description: string
+  category_id: string
 
 };
 
@@ -157,7 +159,21 @@ function CreateProduct() {
           <Input.TextArea className="!rounded-[8px] !py-3" />
         </Form.Item>
         {/* End description */}
-
+        {/* Start category */}
+        <Form.Item<FieldType>
+          name="category_id"
+          label={<span className="text-sm md:text-base"> Category Id</span>}
+          rules={[{ required: true, message: "Please Select Category" }]}
+        >
+          <Select
+            defaultValue="phones"
+            style={{ width: 120 }}
+            allowClear
+            options={CategoryList}
+            placeholder="select it"
+          />
+        </Form.Item>
+        {/* End Category */}
         <button
           type="submit"
           className="border-2 border-[#006496] rounded-full  mt-5 w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"

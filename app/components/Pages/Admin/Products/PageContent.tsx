@@ -17,7 +17,6 @@ function ProductsList({ category_id }: any) {
     const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState([])
     const [update, setUpdate] = useState(false)
-
     const getData = async () => {
         setIsLoading(false)
         try {

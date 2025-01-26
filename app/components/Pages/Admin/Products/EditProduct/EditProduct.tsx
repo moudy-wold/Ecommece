@@ -1,16 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Button, Card, Form, Input, notification, Upload, Switch, DatePicker } from "antd";
+import { Button, Form, Input, notification, Select, Upload, } from "antd";
 import { GetProductById, EditProductById } from '@/app/api/Front/products';
 import { useForm } from 'antd/es/form/Form';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, } from 'next/navigation';
 import Loader from "@/app/components/Global/Loader/Loader";
-import { MdDelete } from "react-icons/md";
 import FetchImageAsFile from "@/app/components/Global/FetchImageAsFile/FetchImageAsFile";
 import Image from "next/image"
 import { IoInformationCircleOutline } from "react-icons/io5";
-import dayjs from 'dayjs';
-import moment from "moment";
+import { CategoryList } from "@/utils/constant";
 
 type FieldType = {
   id: string,
@@ -18,6 +16,7 @@ type FieldType = {
   name: string,
   price: string,
   description: string
+  category_id: string
 
 };
 type Props = {
@@ -31,50 +30,49 @@ function EditProduct({ product_id }: Props) {
   const [returnDetails, setReturnDetails] = useState([{}]);
   const [categoryId, setCategoryId] = useState<any>();
   const [data, setData] = useState<any>([])
-  const disabledDate = (current: any) => {
-    return current && current < dayjs().startOf('day');
-  };
-  const getData = async () => {
-    setIsLoading(true)
-    try {
-      const res = await GetProductById(product_id);
-      setData(res?.data)
-    } catch (err: any) {
-      console.log(err)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-  useEffect(() => {
-    setCategoryId(localStorage.getItem("categoryId"))
-  }, [])
+
 
   useEffect(() => {
-    // const data = ProductData?.data;
-    if (data) {
-      if (getData) {
-        data?.data?.details.map((item: any) => {
-          setReturnDetails(prevDetails => [...prevDetails, { title: item.title, content: item.content }]);
-        })
-        returnDetails.shift();
+    const getData = async () => {
+      setIsLoading(true)
+      try {
+        const res = await GetProductById(product_id);
+        setData(res?.data)
+        form.setFieldValue('name', res?.data?.name);
+        form.setFieldValue('image', res?.data.image);
+        form.setFieldValue('price', res?.data?.price);
+        form.setFieldValue('description', res?.data?.description);
+        form.setFieldValue('category_id', res?.data?.category);
 
-        form.setFieldValue('name', data?.data?.name);
-        form.setFieldValue(
-          'images',
-          data.data.images.map((image: any) => ({
-            uid: String(image),
-            name: image,
-            status: 'done',
-            url: image,
-          }))
-        );
-        form.setFieldValue('price', data?.data?.price);
-        form.setFieldValue('description', data?.data?.description);
-
+      } catch (err: any) {
+        console.log(err)
+      } finally {
+        setIsLoading(false)
       }
-      setGetData(false)
+      getData
     }
-  }, [data])
+    // const data = ProductData?.data;
+    // if (data) {
+    //   if (getData) {
+
+
+    //     form.setFieldValue('name', data?.data?.name);
+    //     form.setFieldValue(
+    //       'images',
+    //       data.data.images.map((image: any) => ({
+    //         uid: String(image),
+    //         name: image,
+    //         status: 'done',
+    //         url: image,
+    //       }))
+    //     );
+    //     form.setFieldValue('price', data?.data?.price);
+    //     form.setFieldValue('description', data?.data?.description);
+
+    //   }
+    //   setGetData(false)
+    // }
+  }, [product_id])
 
   const onFinish = async ({ name, images, price, description }: FieldType) => {
     const filteredArray = returnDetails.filter((item: any) => item.title !== "" && item.content !== "");
@@ -208,10 +206,7 @@ function EditProduct({ product_id }: Props) {
           </Form.Item>
           {/* End Price */}
 
-
-
           {/* start description */}
-
           <Form.Item<FieldType>
             name="description"
             label={<span className="text-sm md:text-base"> Description</span>}
@@ -221,6 +216,21 @@ function EditProduct({ product_id }: Props) {
           </Form.Item>
           {/* End description */}
 
+          {/* Start category */}
+          <Form.Item<FieldType>
+            name="category_id"
+            label={<span className="text-sm md:text-base"> Category Id</span>}
+            rules={[{ required: true, message: "Please Select Category" }]}
+          >
+            <Select
+              defaultValue="phones"
+              style={{ width: 120 }}
+              allowClear
+              options={CategoryList}
+              placeholder="select it"
+            />
+          </Form.Item>
+          {/* End Category */}
           <button
             type="submit"
             className="border-2 border-[#006496] rounded-full  mt-5 w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"

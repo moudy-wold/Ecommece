@@ -1,17 +1,20 @@
-export async function GET(request: any) {
-  return new Response(JSON.stringify({ message: "List of Category" }), {
-    headers: { "Content-Type": "application/json" },
-    status: 200,
-  });
-}
+import connectDB from "@/config/connectDB";
+import { Product, Category } from "@/models"; // استيراد الموديلات من ملف واحد
 
-export async function POST(request: any) {
-  const body = await request.json();
-  return new Response(
-    JSON.stringify({ message: "Category created", data: body }),
-    {
-      headers: { "Content-Type": "application/json" },
-      status: 201,
-    }
-  );
+export async function GET() {
+  try {
+    await connectDB();
+    const categories = await Category.find();
+    // console.log("Categories:", categories);
+
+    const populatedCategories = await Category.find().populate("products");
+    // console.log("Populated Categories:", populatedCategories);
+
+    return new Response(JSON.stringify(populatedCategories), { status: 200 });
+  } catch (error: any) {
+    console.error("Error:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
+  }
 }

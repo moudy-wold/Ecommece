@@ -1,5 +1,5 @@
-import Product from "@/models/product";
-import connectDB from "@/config/database";
+import Product from "@/models/Product";
+import connectDB from "@/config/connectDB";
 
 export async function PUT(req: any, { params }: any) {
   await connectDB();

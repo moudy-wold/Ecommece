@@ -5,8 +5,10 @@ const ProductSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   description: { type: String, required: true },
   image: { type: String, required: true },
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true }, // Reference to Category
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
 });
 
-export default mongoose.models.Product ||
-  mongoose.model("Product", ProductSchema);
+// تأكد من تسجيل الموديل
+const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
+
+export default Product;

@@ -17,18 +17,17 @@ export async function AddProduct(data: any): Promise<AxiosResponse<any>> {
   return await axios.post(`/products`, data);
 }
  
-
 export async function GetProductById(
   id: string | string[]
 ): Promise<AxiosResponse<any>> {
-  return await axios.get(`/api/front/products/show/${id}`);
+  return await axios.get(`/products/${id}`);
 }
 
 export async function EditProductById(
   id: string | string[],
-  data: FormData
+  data: any
 ): Promise<AxiosResponse<any>> {
-  return await axios.post(`/api/shop/products/update/${id}`, data);
+  return await axios.put(`/products/${id}`, data);
 }
 
 export async function DeleteProductById(

@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Global/NavBar/Navbar";
 import StoreProvider from "./StoreProviders";
-
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import '@ant-design/v5-patch-for-react-19';
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
