@@ -11,13 +11,30 @@ import { IoMdCart } from "react-icons/io"
 import UserIcons from "../UserIcons/UserIcons";
 import SearchProducts from "../Search/SearchProducts/SearchProducts";
 import SidebarAndburgerMenu from "@/app/components/Global/SidebarAndburgerMenu/SidebarAndburgerMenu"
- 
+import { useSession } from "next-auth/react";
+
 function Navbar() {
   const path = usePathname();
   const [openSearch, setOpenSearch] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [openBurgerMenu, setOpenBurgerMenu] = useState(false)
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user) {
+      if ((session.user as any).user_role === "admin") {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false)
+      }
+    } else {
+      setIsAdmin(false)
+    }
+  }, [session]);
+
+
   useEffect(() => {
     if (window.innerWidth < 1023) {
       setIsMobile(true);
@@ -28,7 +45,7 @@ function Navbar() {
 
   return (
     <main className={` lg:container py-2 lg:py-6 `}>
-      {/* Start Burger Menu */}
+      {/* Start Small Screen */}
       <div className={`lg:hidden grid grid-cols-[78%_20%] min-w-full items-center justify-between `}>
 
         {/* Start First Child */}
@@ -42,23 +59,26 @@ function Navbar() {
                 setOpenBurgerMenu(!openBurgerMenu)
               }}
             />
-              <div className={`${openBurgerMenu ? "left-0" : "-left-[100%]" } absolute transation-all duration-200`}>
-                <SidebarAndburgerMenu  />
-              </div> 
+            <div className={`${openBurgerMenu ? "left-0" : "-left-[100%]"} absolute transation-all duration-200`}>
+              <SidebarAndburgerMenu />
+            </div>
           </div>
           {/* End BurgerMenu /}
 
-              { 
+              
 
               {/* Start Cart Icon */}
-          <div className=" hover:scale-110 transition-all duration-200 ">
-            <Link
-              href={`/cart`}
-              className="flex !flex-col justify-center items-center "
-            >
-              <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
-            </Link>
-          </div>
+          {
+            !isAdmin &&
+            <div className=" hover:scale-110 transition-all duration-200 ">
+              <Link
+                href={`/cart`}
+                className="flex !flex-col justify-center items-center "
+              >
+                <IoMdCart className="text-xl cursor-pointer text-[#8c8c8c]" />
+              </Link>
+            </div>
+          }
 
 
           {/* Start Search Component */}
@@ -69,17 +89,22 @@ function Navbar() {
               <> <CiSearch className={` -ml-1  text-xl cursor-pointer `} onClick={() => setOpenSearch(!openSearch)} /> </>
             )}
             <div className={`${openSearch ? " right-1/2 translate-x-1/2  " : " -right-[110%] "} absolute !z-50 top-10 transition-all duration-250 w-[95%] md:w-3/5  `}>
-              <SearchProducts  setOpenSearch={setOpenSearch} store={false} />
+              <SearchProducts setOpenSearch={setOpenSearch} store={false} />
             </div>
 
           </div>
           {/* End Search Component */}
-          <div className="">
-            <Link href="/admin">
-              <GrUserAdmin className="text-xl text-gray-400 font-normal cursor-pointer " />
-            </Link>
-          </div>
 
+
+          {/* Start DashBiard icon */}
+          {isAdmin &&
+            <div className="">
+              <Link href="/admin">
+                <GrUserAdmin className="text-xl text-gray-400 font-normal cursor-pointer " />
+              </Link>
+            </div>
+          }
+          {/* End Dashboard Icon */}
         </div>
         {/* End First Child */}
 
@@ -88,7 +113,6 @@ function Navbar() {
           <div >
             <Link href="/">
               <Image
-                // src={infoData?.data?.logo != undefined && infoData?.data?.logo != "" ? infoData?.data?.logo : "/assets/logo.png"}
                 src={"/assets/logo.png"}
                 height={100}
                 width={137}
@@ -101,7 +125,7 @@ function Navbar() {
         {/* End Dashboard Icon && Logo */}
 
       </div>
-      {/* End Burger Menu */}
+      {/* End Small Screen */}
 
       {/* Start Lg Screen */}
       <div className="hidden lg:grid grid-cols-[30%_35%_31%] items-center justify-between">
@@ -122,7 +146,7 @@ function Navbar() {
 
         {/* Start Search */}
         <div className="w-full mx-auto">
-          <SearchProducts   store={isAdmin && path.includes("admin") ? true : false} />
+          <SearchProducts store={isAdmin && path.includes("admin") ? true : false} />
         </div>
         {/* End Search */}
 

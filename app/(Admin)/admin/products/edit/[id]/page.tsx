@@ -5,7 +5,7 @@ type Props = {
   params: { id: string };
 };
 
-export default async function Page({ params: { id } }: Props) {
+export default async function Page({ params: { id } }: any) {
 
   return (
     <div>

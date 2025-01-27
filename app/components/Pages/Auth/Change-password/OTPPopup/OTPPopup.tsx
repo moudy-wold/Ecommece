@@ -4,7 +4,7 @@ import OtpInput from "react-otp-input";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Form, Input, notification } from "antd";
-import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/api/Front/auth";
+// import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/api/Front/auth";
 import { useForm } from "antd/es/form/Form";
 import Loader from "@/app/components/Global/Loader/Loader";
 
@@ -27,87 +27,85 @@ const OTPPopup = (props: any) => {
 
   const handleConfirm = async () => {
     setIsLoading(true);
-    ConfirmOTP(otp)
-      .then((res) => {
-        console.log(res);
-        router.push("/auth/login");
-      })
-      .catch((err: any) => {
-        notification.error({
-          message: err.data.message,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // ConfirmOTP(otp)
+    //   .then((res) => {
+    //     console.log(res);
+    //     router.push("/auth/login");
+    //   })
+    //   .catch((err: any) => {
+    //     notification.error({
+    //       message: err.data.message,
+    //     });
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const handleResendOTP = async () => {
-    ResendOTP()
-      .then((res) => {
-        console.log(res.status);
-        if (res.status) {
-          notification.success({
-            message: "the_code_has_been_resent",
-          });
-        }
-      })
-      .catch((err: any) => {
-        console.log(err);
-        notification.error({
-          message: err.response.data.message,
-        });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // ResendOTP()
+    //   .then((res) => {
+    //     console.log(res.status);
+    //     if (res.status) {
+    //       notification.success({
+    //         message: "the_code_has_been_resent",
+    //       });
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err);
+    //     notification.error({
+    //       message: err.response.data.message,
+    //     });
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const onFinish = async (data: any) => {
-    console.log(data);
-    console.log(props.emailValue);
-    setIsLoading(true);
-    if (props.emailValue) {
-      ResetPass(data.otp, props.emailValue, data.password)
-        .then((res: any) => {
-          console.log(res);
-          if (res.status) {
-            setIsLoading(false);
-            notification.success({
-              message: "code_has_been_sent_to_email",
-            });
-            props.setOpenVerifyPopup(false);
-          }
-        })
-        .catch((err: any) => {
-          console.log(err);
-          notification.error({
-            message: err.response.data.message,
-          });
-          setIsLoading(false);
-        });
-    } else {
-      ConfirmOTP(otp)
-        .then((res) => {
-          console.log(res);
-          if (path.includes("regisrer")) {
-            router.push("/auth/login");
-          }
-          notification.success({
-            message: "account_verified_successfully",
-          });
-          props.setOpenVerifyPopup(false);
-        })
-        .catch((err: any) => {
-          console.log(err);
-          notification.error({
-            message: err.response.data.message,
-          });
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+    // setIsLoading(true);
+    // if (props.emailValue) {
+    //   ResetPass(data.otp, props.emailValue, data.password)
+    //     .then((res: any) => {
+    //       console.log(res);
+    //       if (res.status) {
+    //         setIsLoading(false);
+    //         notification.success({
+    //           message: "code_has_been_sent_to_email",
+    //         });
+    //         props.setOpenVerifyPopup(false);
+    //       }
+    //     })
+    //     .catch((err: any) => {
+    //       console.log(err);
+    //       notification.error({
+    //         message: err.response.data.message,
+    //       });
+    //       setIsLoading(false);
+    //     });
+    // } else {
+    //   ConfirmOTP(otp)
+    //     .then((res) => {
+    //       console.log(res);
+    //       if (path.includes("regisrer")) {
+    //         router.push("/auth/login");
+    //       }
+    //       notification.success({
+    //         message: "account_verified_successfully",
+    //       });
+    //       props.setOpenVerifyPopup(false);
+    //     })
+    //     .catch((err: any) => {
+    //       console.log(err);
+    //       notification.error({
+    //         message: err.response.data.message,
+    //       });
+    //     })
+    //     .finally(() => {
+    //       setIsLoading(false);
+    //     });
+    // }
   };
 
   useEffect(() => {
@@ -131,7 +129,7 @@ const OTPPopup = (props: any) => {
 
   return (
     <div
-      className={`absolute inset-0 top-0 flex items-center justify-center z-50`}
+      className={`  inset-0 top-0 flex items-center justify-center z-50`}
     >
       {isLoading && <Loader />}
       <div className="fixed inset-0 bg-black opacity-50 z-30"></div>

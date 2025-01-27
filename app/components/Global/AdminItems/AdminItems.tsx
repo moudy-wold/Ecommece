@@ -29,11 +29,7 @@ function AdminItems() {
                     key: "1.2",
                     icon: <BiCustomize />,
                 },
-                {
-                    label: <Link href="admin/category/6794386d4f76e9c406d00184">Screens</Link>,
-                    key: "1.3",
-                    icon: <BiCustomize />,
-                },
+               
             ],
         },
         {

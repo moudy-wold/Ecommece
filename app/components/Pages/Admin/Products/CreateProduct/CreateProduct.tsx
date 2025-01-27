@@ -30,36 +30,40 @@ function CreateProduct() {
     setCategoryId(localStorage.getItem("categoryId"))
   }, [])
 
-  const onFinish = async ({ name, images, price, description }: FieldType) => {
+  const onFinish = async ({ name, images, price, description,category_id }: FieldType) => {
     setIsLoading(true);
-    const formData: any = new FormData();
-    formData.append("name", name);
+    // const formData: any = new FormData();
+    // formData.append("name", name);
 
-    for (let i = 0; i < images.length; i++) {
-      formData.append('image', images[i].originFileObj!);
+    // for (let i = 0; i < images.length; i++) {
+    //   formData.append('image', images[i].originFileObj!);
+    // }
+
+    // formData.append('price', price);
+    // formData.append("description", description);
+    // formData.append('category', category_id);
+
+    const newData = {
+      name: name,
+      price: price,
+        description:description,
+        image:images,
+        category:category_id
     }
-
-    formData.append('price', price);
-    formData.append("description", description);
-    formData.append('category', "679437f84f76e9c406d00182");
-
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+    console.log(newData)
     try {
-      const res = await AddProduct(formData);
+      const res = await AddProduct(newData);
       notification.success({
         message: "product added successfully",
       });
-      console.log(res)
-      // router.back();
+      router.back();
       setIsLoading(false);
 
     } catch (error: any) {
       setIsLoading(false);
       console.log(error);
       notification.error({
-        message: error.response.data.message,
+        message: error.response.data.error,
       });
     }
   };
@@ -85,13 +89,7 @@ function CreateProduct() {
       >
         {/* Start Image */}
         <div>
-          {/* Start Hint */}
-          <div className="py-2 px-1 flex items-center gap-1">
-            <IoInformationCircleOutline />
-            <p className="text-xs">For faster site performance, Enter images in .webp format</p>
-          </div>
-          {/* End Hint */}
-          <Form.Item<FieldType>
+          {/* <Form.Item<FieldType>
             name="images"
             label={<span className="text-sm md:text-base">product images</span>}
             rules={[{ required: true, message: "Please Enter the image" }]}
@@ -121,7 +119,20 @@ function CreateProduct() {
               </Button>
             </Upload>
 
+          </Form.Item> */}
+          <Form.Item<FieldType>
+            name="images"
+            label={<span className="text-sm md:text-base">product image URL</span>}
+            rules={[{ required: true, message: "Please Enter the image url" }]}
+          >
+            <Input className="!rounded-[8px] !py-3" />
           </Form.Item>
+          {/* Start Hint */}
+          <div className=" -mt-3 mb-3 px-1 flex items-center gap-1">
+            <IoInformationCircleOutline />
+            <p className="text-xs">For faster site performance, Enter images in .webp format</p>
+          </div>
+          {/* End Hint */}
         </div>
         {/* End Image */}
 
@@ -156,26 +167,24 @@ function CreateProduct() {
           <Input.TextArea className="!rounded-[8px] !py-3" />
         </Form.Item>
         {/* End description */}
-        
+
         {/* Start category */}
-        <Form.Item<FieldType>
-          name="category_id"
-          label={<span className="text-sm md:text-base"> Category Id</span>}
-          rules={[{ required: true, message: "Please Select Category" }]}
-        >
-          <Select
-            initialValues=""
-            style={{ width: 120 }}
-            allowClear
-            options={CategoryList}
-            placeholder="select it" 
-            className="!w-[300px] p-1 h-14"
-          />
-        </Form.Item>
+        <Form.Item
+        name="category_id"
+        label={<span className="text-sm md:text-base">Category Id</span>}
+        rules={[{ required: true, message: 'Please Select Category' }]}
+      >
+        <Select
+          allowClear
+          options={CategoryList}
+          placeholder="select it"
+          className="!w-[300px] p-1 h-14"
+        />
+      </Form.Item>  
         {/* End Category */}
         <button
           type="submit"
-          className="col-span-2 w-20 border-2 border-[#006496] rounded-full  mt-5 py-2 text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+          className="col-span-2 w-20 border-2   border-[#006496] rounded-full  mt-5 py-3 text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
         >
           Add
         </button>

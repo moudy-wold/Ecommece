@@ -1,52 +1,42 @@
 "use client";
 import { useState } from "react";
 import Loader from "@/app/components/Global/Loader/Loader";
-import { Checkbox, Form, Input, notification, Modal } from "antd";
+import { Checkbox, Form, Input, notification, Modal, Select } from "antd";
 import Link from "next/link";
-import { RegisterForCustomer } from "@/app/api/Front/auth";
+import { Register } from "@/app/api/Front/auth";
 import { useRouter } from "next/navigation";
 import OTPPopup from "@/app/components/Pages/Auth/Change-password/OTPPopup/OTPPopup";
 import Cookies from "js-cookie";
+import { user_rols } from "@/utils/constant";
 
 type FieldType = {
-  userName: string;
-  phoneNumber: string;
+  name: string;
   email: string;
   password: string;
   rePassword: string;
+  userRole: string;
   accept: boolean;
-  recaptcha: boolean;
 };
 
 function FormComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [openVerifyPopup, setOpenVerifyPopup] = useState<boolean>(false);
-  const [capched, setCapched] = useState<string | null>();
   const { push } = useRouter();
-  const onFinish = ({
-    password,
-    email,
-    accept,
-    userName,
-    phoneNumber,
-  }: FieldType) => {
+  const onFinish = (data: FieldType) => {
     setIsLoading(true);
-    const formdata = new FormData();
-
-    formdata.append("userName", userName);
-    formdata.append("phoneNumber", phoneNumber);
-    formdata.append("email", email);
-    formdata.append("password", password);
-    formdata.append("acceptTerms", accept ? "1" : "0");
-
-    RegisterForCustomer(formdata)
+    const newData = {
+      name:data.name,
+      email:data.email,
+      password:data.password,
+      user_role:data.userRole
+    }
+    Register(newData)
       .then((res) => {
         if (res?.data?.message == "the user exists already") {
           notification.error({
             message: res?.data?.message,
           });
         } else {
-          Cookies.set("token", res.data.token, { expires: 7, path: "/" });
           setOpenVerifyPopup(true);
         }
       })
@@ -67,23 +57,11 @@ function FormComponent() {
       <Form name="register-form" onFinish={onFinish} autoComplete="off">
         <div className="">
           <Form.Item<FieldType>
-            name="userName"
+            name="name"
             rules={[{ required: true, message: "Please enter name!" }]}
           >
             <Input
               placeholder="name"
-              className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
-            />
-          </Form.Item>
-        </div>
-
-        <div className="">
-          <Form.Item<FieldType>
-            name="phoneNumber"
-            rules={[{ required: true, message: "Please enter phone number" }]}
-          >
-            <Input
-              placeholder="Phone Number"
               className="!rounded-[2px] !py-3 placeholder:!text-[#646464]"
             />
           </Form.Item>
@@ -110,7 +88,7 @@ function FormComponent() {
             name="password"
             rules={[
               { required: true, message: "please enter password!" },
-              { min: 8, message: "password must be at least 8 characters long!" },
+              { min: 6, message: "password must be at least 6 characters long!" },
             ]}
             className="!mb-3"
           >
@@ -145,6 +123,19 @@ function FormComponent() {
             </div>
           </Form.Item>
         </div>
+        {/* Start userRole */}
+        <Form.Item<FieldType>
+          name="userRole"
+          rules={[{ required: true, message: "Please Select user Role" }]}
+        >
+          <Select
+            allowClear
+            options={user_rols}
+            placeholder="select One"
+            className="w-full p-1 h-14"
+          />
+        </Form.Item>
+        {/* End userRole */}
         <div>
           <Form.Item<FieldType>
             name="accept"
@@ -191,7 +182,6 @@ function FormComponent() {
         </div>
       </Form>
       <Modal
-        title="Account Creation Details"
         centered
         open={openVerifyPopup}
         okButtonProps={{ style: { display: "none" } }}
@@ -199,7 +189,8 @@ function FormComponent() {
           setOpenVerifyPopup(false);
           push("/auth/login");
         }}
-        width={500}
+        cancelButtonProps={{style:{display:"none"}}}
+        width={650}
       >
         <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} />
       </Modal>

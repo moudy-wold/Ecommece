@@ -53,3 +53,27 @@ export async function DELETE(req: any, { params }: any) {
     });
   }
 }
+export async function GET(req: any, { params }: any) {
+  await connectDB();
+
+  const { id } = params; // الحصول على ID المنتج من الرابط
+
+  try {
+    const product = await Product.findById(id); // جلب المنتج باستخدام الـ id
+
+    if (!product) {
+      return new Response(JSON.stringify({ message: "المنتج غير موجود" }), {
+        status: 404,
+      });
+    }
+
+    return new Response(JSON.stringify(product), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ message: "فشل جلب المنتج", error }), {
+      status: 500,
+    });
+  }
+}

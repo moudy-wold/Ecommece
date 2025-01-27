@@ -12,7 +12,10 @@ const handler = NextAuth({
       },
       async authorize(credentials) {
         try {
-          const res = await Login({ email: credentials?.email, password: credentials?.password })
+          const res = await Login({
+            email: credentials?.email,
+            password: credentials?.password,
+          });
           const user = res.data;
           if (user && user.token) {
             return {
@@ -52,6 +55,8 @@ const handler = NextAuth({
   },
   pages: {
     signIn: "/auth/login",
+    newUser: "/auth/register",
+    error: "/api/auth/error",
   },
   secret: process.env.JWT_SECRET,
   jwt: {

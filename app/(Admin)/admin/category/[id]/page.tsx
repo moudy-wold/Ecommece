@@ -1,10 +1,10 @@
     import ProductsList from "@/app/components/Pages/Admin/Products/PageContent";
 
 type Props = {
-    params: { id: string };
+    params: any;
 };
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params }: any) {
     const { id } = await params;
     return (
         <div>

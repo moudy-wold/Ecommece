@@ -31,26 +31,26 @@ function EditProduct({ product_id }: Props) {
   const [categoryId, setCategoryId] = useState<any>();
   const [data, setData] = useState<any>([])
 
-
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true)
-      try {
-        const res = await GetProductById(product_id);
-        setData(res?.data)
-        form.setFieldValue('name', res?.data?.name);
-        form.setFieldValue('image', res?.data.image);
-        form.setFieldValue('price', res?.data?.price);
-        form.setFieldValue('description', res?.data?.description);
-        form.setFieldValue('category_id', res?.data?.category);
-
-      } catch (err: any) {
-        console.log(err)
-      } finally {
-        setIsLoading(false)
-      }
-      getData
+  const getData = async () => {
+    setIsLoading(true)
+    try {
+      const res = await GetProductById(product_id);
+      setData(res?.data)
+      form.setFieldsValue({
+        name: res?.data?.name,
+        images: res?.data?.image,
+        price: res?.data?.price,
+        description: res?.data?.description,
+        category_id: res?.data?.category,
+      });
+    } catch (err: any) {
+      console.log(err)
+    } finally {
+      setIsLoading(false)
     }
+  }
+  useEffect(() => {
+    getData()
     // const data = ProductData?.data;
     // if (data) {
     //   if (getData) {
@@ -66,7 +66,7 @@ function EditProduct({ product_id }: Props) {
     //         url: image,
     //       }))
     //     );
-    //     form.setFieldValue('price', data?.data?.price);
+    //     form.setFieldValue('price', data?.data?.price);s
     //     form.setFieldValue('description', data?.data?.description);
 
     //   }
@@ -74,50 +74,55 @@ function EditProduct({ product_id }: Props) {
     // }
   }, [product_id])
 
-  const onFinish = async ({ name, images, price, description }: FieldType) => {
-    const filteredArray = returnDetails.filter((item: any) => item.title !== "" && item.content !== "");
+  const onFinish = async ({ name, images, price, description, category_id }: FieldType) => {
 
-    setIsLoading(true);
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
+    // setIsLoading(true);
+    // const formData = new FormData();
+    // formData.append("name", name);
+    // formData.append("description", description);
 
     //  start image fixed  ****************************
-    const imageFiles = await Promise.all(
-      images.map(async (file: any) => {
-        if (file.url) {
-          return await FetchImageAsFile(file.url, file.url.split('/').pop() || 'image.jpg');
-        }
-        return file.originFileObj; // Return the original file if there's no URL
-      })
-    );
+    // const imageFiles = await Promise.all(
+    //   images.map(async (file: any) => {
+    //     if (file.url) {
+    //       return await FetchImageAsFile(file.url, file.url.split('/').pop() || 'image.jpg');
+    //     }
+    //     return file.originFileObj; // Return the original file if there's no URL
+    //   })
+    // );
 
     // Append processed images to formData
-    imageFiles.forEach((file: any) => {
-      formData.append('images[]', file);
-    });
+    // imageFiles.forEach((file: any) => {
+    //   formData.append('images[]', file);
+    // });
     // end my code *************
+    // formData.append('images', images);
 
-    formData.append('price', price);
-    formData.append('categoryId', categoryId);
-
-    EditProductById(product_id, formData)
+    // formData.append('price', price);
+    // formData.append('categoryId', categoryId);
+    const newData = {
+      name: name,
+      price: price,
+      image: images,
+      description: description,
+      category_id: category_id
+    }
+    EditProductById(product_id, newData)
       .then((res) => {
-        if (res.data.status) {
-          form.resetFields();
-          setIsLoading(false)
-          notification.success({
-            message: "Modified successfully"
-          });
-          router.back();
-        }
+        form.resetFields();
+        setIsLoading(false)
+        notification.success({
+          message: "Modified successfully"
+        });
+        router.back();
       })
       .catch((err) => {
         console.log(err.response.data)
         notification.error({
-          message: err.response.data.message
+          message: err.response.data.error
         })
-        setIsLoading(false);
+      }).finally(() => {
+        setIsLoading(false)
       })
   }
 
@@ -144,13 +149,7 @@ function EditProduct({ product_id }: Props) {
         >
           {/* Start Image */}
           <div>
-            {/* Start Hint */}
-            <div className="py-2 px-1 flex items-center gap-1">
-              <IoInformationCircleOutline />
-              <p className="text-xs">For faster site performance, Enter images in .webp format</p>
-            </div>
-            {/* End Hint */}
-            <Form.Item<FieldType>
+            {/* <Form.Item<FieldType>
               name="images"
               label={<span className="text-sm md:text-base">product images</span>}
               rules={[{ required: true, message: "Please Enter the image" }]}
@@ -180,7 +179,20 @@ function EditProduct({ product_id }: Props) {
                 </Button>
               </Upload>
 
+            </Form.Item> */}
+            <Form.Item<FieldType>
+              name="images"
+              label={<span className="text-sm md:text-base">product image</span>}
+              rules={[{ required: true, message: "Please Enter the image url" }]}
+            >
+              <Input className="!rounded-[8px] !py-3" />
             </Form.Item>
+            {/* Start Hint */}
+            <div className="py-2 px-1 flex items-center gap-1">
+              <IoInformationCircleOutline />
+              <p className="text-xs">For faster site performance, Enter images in .webp format</p>
+            </div>
+            {/* End Hint */}
           </div>
           {/* End Image */}
 
@@ -217,25 +229,26 @@ function EditProduct({ product_id }: Props) {
           {/* End description */}
 
           {/* Start category */}
+          <div className="col-span-2 w-1/2">
           <Form.Item<FieldType>
             name="category_id"
             label={<span className="text-sm md:text-base"> Category Id</span>}
             rules={[{ required: true, message: "Please Select Category" }]}
           >
             <Select
-              defaultValue="phones"
-              style={{ width: 120 }}
               allowClear
               options={CategoryList}
               placeholder="select it"
+              className="w-[300pd] p-1 h-14 "
             />
           </Form.Item>
+        </div>
           {/* End Category */}
           <button
             type="submit"
-            className="border-2 border-[#006496] rounded-full  mt-5 w-28 py-2 flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+            className="border-2 border-[#006496] rounded-full  mt-5 w-28 py-2  flex items-center justify-center text-base lg:text-xl text-white bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
           >
-            Add
+            Edit
           </button>
         </Form>
       </div>

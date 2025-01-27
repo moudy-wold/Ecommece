@@ -1,6 +1,7 @@
 import connectDB from "@/config/connectDB";
 import User from "@/models/User"; // موديل المستخدمين
 import jwt from "jsonwebtoken"; // لإنشاء التوكن
+import bcrypt from "bcryptjs"; // لمقارنة كلمات المرور
 
 export async function POST(req: any) {
   try {
@@ -17,8 +18,9 @@ export async function POST(req: any) {
       );
     }
 
-    // التحقق من كلمة المرور (مقارنة مباشرة)
-    if (password !== user.password) {
+    // التحقق من كلمة المرور المشفرة
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return new Response(
         JSON.stringify({ error: "Invalid email or password" }),
         { status: 401 }
@@ -27,7 +29,7 @@ export async function POST(req: any) {
 
     // إنشاء التوكن (JWT)
     if (!process.env.JWT_SECRET) {
-      throw new Error('JWT_SECRET is not defined in environment variables');
+      throw new Error("JWT_SECRET is not defined in environment variables");
     }
     const token = jwt.sign(
       { id: user._id, name: user.name, user_role: user.user_role }, // تضمين user_role

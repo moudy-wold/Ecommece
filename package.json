@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.10.3",
     "@reduxjs/toolkit": "^2.5.0",
     "@stripe/stripe-js": "^5.5.0",
     "@types/raw-body": "^2.3.0",

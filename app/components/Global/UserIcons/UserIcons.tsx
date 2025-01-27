@@ -3,7 +3,6 @@ import Loader from "@/app/components/Global/Loader/Loader";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut } from "@/app/api/Front/auth";
-// import { setIsLogend } from "@/app/lib/todosSlice";
 import { Modal, notification, } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { FaUserAlt } from "react-icons/fa";
@@ -37,6 +36,7 @@ function UserIcons({ isMobile }: Props) {
       }
     }else{
       setIsLogged(false)
+      setIsAdmin(false)
     }
   }, [session]);
 
@@ -54,10 +54,7 @@ function UserIcons({ isMobile }: Props) {
       notification.success({
         message: "Logout successful",
       });
-
-      setTimeout(() => {
-        window.location.reload;
-      }, 100);
+ 
     } catch (err: any) {
       console.error(err);
 

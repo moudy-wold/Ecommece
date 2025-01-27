@@ -20,27 +20,36 @@ export const counterSlice = createSlice({
     setCart: (state, action) => {
       const existingItem = state.cart.find(
         (item) =>
-          item.id === action.payload.id &&
-          item.details === action.payload.details
+          item._id === action.payload._id &&
+          JSON.stringify(item.details) === JSON.stringify(action.payload.details)
       );
-
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
         state.cart = [...state.cart, { ...action.payload, quantity: 1 }];
       }
     },
+    
     deleteItemFromCart: (state, action) => {
-      state.cart = state.cart.filter((item) => item.id !== action.payload.id);
+      state.cart = state.cart.filter((item) => item._id !== action.payload._id && item.details !== action.payload.details);
     },
-    increaseQuantity : (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload.id);
+    increaseQuantity: (state, action) => {
+      const item = state.cart.find(
+        (item) =>
+          item._id === action.payload._id &&
+          JSON.stringify(item.details) === JSON.stringify(action.payload.details)
+      );
+      console.log(action.payload)
       if (item) {
         item.quantity += 1;
       }
     },
     decreaseQuantity: (state, action) => {
-      const item = state.cart.find((item) => item.id === action.payload.id);
+      const item = state.cart.find(
+        (item) =>
+          item._id === action.payload._id &&
+          JSON.stringify(item.details) === JSON.stringify(action.payload.details)
+      );
       if (item) {
         item.quantity -= 1;
       }

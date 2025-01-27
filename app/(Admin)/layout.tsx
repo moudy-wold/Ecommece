@@ -13,11 +13,15 @@ function AdminLayout({ children }: RootLayoutProps) {
     const { data: session } = useSession();
 
     useEffect(() => {
-        if (session?.user) {
-            if ((session.user as any).user_role !== "admin") {
+        setTimeout(()=>{
+            if (session?.user) {
+                if ((session.user as any).user_role !== "admin") {
+                    router.push("/")
+                }
+            }else{
                 router.push("/")
             }
-        }
+        },1000)
     }, [session]);
     return (
         <div className="grid lg:grid-cols-[20%_78%] gap-4  " >

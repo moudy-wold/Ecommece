@@ -1,5 +1,5 @@
 'use client';
-import { ForgetPass } from "@/app/api/Front/auth";
+// import { ForgetPass } from "@/app/api/Front/auth";
 import Loader from '@/app/components/Global/Loader/Loader';
 import { Alert, Form, Input, Modal, notification } from 'antd';
 import Link from 'next/link';
@@ -23,26 +23,26 @@ function FormComponent(props: any) {
   const router = useRouter();
 
   const onFinish = async ({ email }: FieldType) => {
-    setIsLoading(true)
-    setEmailValue(email)
-    ForgetPass(email)
-      .then((res: any) => {
-        console.log(res)
-        if (res.status) {
-          setIsLoading(false)
-          notification.success({
-            message: "code has been sent to email"
-          })
-          setOpenVerifyPopup(true)
-        }
-      })
-      .catch((err: any) => {
-        console.log(err)
-        notification.error({
-          message: err.response.data.message
-        })
-        setIsLoading(false)
-      })
+    // setIsLoading(true)
+    // setEmailValue(email)
+    // ForgetPass(email)
+    //   .then((res: any) => {
+    //     console.log(res)
+    //     if (res.status) {
+    //       setIsLoading(false)
+    //       notification.success({
+    //         message: "code has been sent to email"
+    //       })
+    //       setOpenVerifyPopup(true)
+    //     }
+    //   })
+    //   .catch((err: any) => {
+    //     console.log(err)
+    //     notification.error({
+    //       message: err.response.data.message
+    //     })
+    //     setIsLoading(false)
+    //   })
   }
 
   return (

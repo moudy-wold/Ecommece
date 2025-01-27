@@ -19,7 +19,7 @@ type FieldType = {
   building_no: string,
   flat_no?: string;
 };
-function ConfirmOrderCom({ data, }: any) {
+function ConfirmOrderCom({ data }: any) {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -267,7 +267,7 @@ function ConfirmOrderCom({ data, }: any) {
           <div className=" col-span-2">
             <button
               type="submit"
-              className="rounded-full p-2  flex items-center justify-center text-base lg:text-xl text-white border-2 border-[#006496] bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1"
+              className={`"rounded-full p-2  flex items-center justify-center text-base lg:text-xl text-white border-2 border-[#006496] bg-[#006496] transition-all hover:bg-white hover:text-[#006496] hover:translate-y-1`}
             >
               Send
             </button>

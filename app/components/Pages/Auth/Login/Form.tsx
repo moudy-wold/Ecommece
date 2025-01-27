@@ -38,7 +38,7 @@ function FormComponent() {
         notification.success({
           message: "Registration completed successfully",
         });
-        router.back();
+        router.push("/");
       }
     } catch (err: any) {
       console.error(err);

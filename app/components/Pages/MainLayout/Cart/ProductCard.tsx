@@ -36,7 +36,7 @@ function ProductCard({
     setRefreshCounte(!refreshCounte);
     setCurrentProductPrice(data.price);
     setRefreshInc(!refreshInc);
-    dispatch(increaseQuantity(data._id))
+    dispatch(increaseQuantity(data))
     notification.success({
       message: "Number Has Been Increased",
     });
@@ -76,9 +76,9 @@ function ProductCard({
       notification.success({
         message: "Item Has Been Removed From Cart",
       });
-      dispatch(deleteItemFromCart(data._id))
+      dispatch(deleteItemFromCart(data))
     } else {
-      dispatch(decreaseQuantity(data._id))
+      dispatch(decreaseQuantity(data))
 
       notification.success({
         message: "Number Has Been Reduced",
@@ -119,7 +119,7 @@ function ProductCard({
   const handleDeleteItem = async () => {
     setIsLoading(true)
     setTimeout(() => {
-      dispatch(deleteItemFromCart(data._id))
+      dispatch(deleteItemFromCart(data))
       setIsLoading(false)
       notification.success({ message: "Item Has Been Removed From Cart" })
     }, 500)
@@ -181,9 +181,9 @@ function ProductCard({
   }, [data]);
 
   return (
-    <div className="p-5 border-2 border-gray-200 rounded-lg my-3">
+    <div className=" p-2 lg:p-5 border-2 border-gray-200 rounded-lg my-3">
       <Loader isLoading={isLoading} />
-      <div className="grid grid-cols-[8%_84%_5%] gap-4">
+      <div className="grid grid-cols-[13%_75%_9%] lg:grid-cols-[13%_80%_4%] gap-2 lg:gap-4">
         {/* Start Image */}
         <div>
           <Image
@@ -191,7 +191,7 @@ function ProductCard({
             alt={data._id}
             width={100}
             height={110}
-            className="rounded-lg !w-[100px] !h-[110px] border-2 "
+            className="rounded-lg !w-[100px] !h-[110px] border-2 object-cover"
           />
         </div>
         {/* End Image */}
@@ -205,11 +205,11 @@ function ProductCard({
 
           {/* Start Details */}
           <div className="flex items-center justify-between w-1/2 my-1">
-            {arrayOfObjects.map((item) => {
+            {arrayOfObjects.map((item:any , index:number) => {
               return (
                 <div
                   className="flex items-center bg-white border-gray-300 border-2 rounded-md mx-2"
-                  key={item._id}
+                  key={index}
                 >
                   <span className="p-2 text-base lg:text-lg ">
                     {item.value}
@@ -266,7 +266,7 @@ function ProductCard({
               )}
             </button>
           </div>
-          <div className="border-2 border-400 rounded-xl p-3 mt-1 flex items-center justify-center">
+          <div className="border-2 border-400 rounded-lg lg:rounded-xl p-1 py-2 lg:p-3 mt-1 flex items-center justify-center">
             <RiDeleteBin5Line
               onClick={() => {
                 handleDeleteItem();

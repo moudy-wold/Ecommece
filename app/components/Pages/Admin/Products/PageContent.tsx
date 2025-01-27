@@ -96,9 +96,9 @@ function ProductsList({ category_id }: any) {
             render: (_, record) => (
                 <Space size="middle" onClick={() => { setProduct_id(record.id); }}>
 
-                    <a href={`/admin/products/edit/${record.id}`}>
+                    <Link href={`/admin/products/edit/${record.id}`}>
                         <CiEdit />
-                    </a>
+                    </Link>
 
                     <a>
                         <RiDeleteBinLine
@@ -113,17 +113,17 @@ function ProductsList({ category_id }: any) {
             ),
         },
     ];
-
     const tableData = data?.map((item: any) => ({
+        key: item._id, // <-- أضف هذه الخاصية
         id: item._id,
-        images: item.images,
+        image : item.image,
         name: item.name,
         description: item.description,
         createdDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),
     }));
 
     return (
-        <div className="">
+        <div className="p-2">
             {isLoading && <Loader />}
 
             <div className="grid grid-cols-[25%_68%] gap-2 mb-2">

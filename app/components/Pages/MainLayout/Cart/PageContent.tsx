@@ -66,7 +66,7 @@ function CartContent() {
         return acc + item.quantity;
       }, 0)
     );
-  }, [data, refreshCounte]);
+  }, [data, refreshCounte,cart]);
 
   useEffect(() => {
     setTotalPrice(
@@ -74,7 +74,7 @@ function CartContent() {
         return acc + +item.price;
       }, 0)
     );
-  }, [data, deleteItem, refreshCounte,]);
+  }, [data, cart, refreshCounte,]);
 
   useEffect(() => {
     setTotalCount(totalCount + 1);
@@ -98,7 +98,7 @@ function CartContent() {
       <h1 className=" text-gray-500 text-3xl mb-5 px-3">
         Cart {data.length} Products{" "}
       </h1>
-      <div className="grid grid-cols-[75%_25%] gap-10">
+      <div className="grid lg:grid-cols-[75%_25%] gap-10">
         <div className="">
           <div className="">
             {cart?.map((item: any, index: number) => (
@@ -138,10 +138,11 @@ function CartContent() {
           </div>
           <div className="mt-8">
             <button
+            disabled={cart.length ==0 ? true :false}
               onClick={() => {
                 setOpenConfirmOrder(true);
               }}
-              className="w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer"
+              className={`${cart.length == 0 ? "cursor-not-allowed " :"cursor-pointer"} w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer`}
             >
               Confirme Order
             </button>{" "}
