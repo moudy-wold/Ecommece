@@ -36,3 +36,8 @@ Checkout Process:
 Integrated a test payment process using Stripe. Users are redirected to a payment page to complete the transaction.
 
 Note: While the payment flow could have been implemented directly on the frontend, I chose to redirect users to ensure a secure and seamless payment experience.
+
+Authentication:
+User authentication is implemented using Next-auth, and email/password login is supported. The system is scalable to include authentication providers with accounts.
+.../Google/Facebook.
+
