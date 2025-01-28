@@ -6,18 +6,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
-import { IoIosArrowForward, IoIosArrowBack, IoMdCart } from "react-icons/io";
-import { BsArrowsExpandVertical } from "react-icons/bs";
+import { IoIosArrowForward, IoIosArrowBack, } from "react-icons/io";
 import { Modal, notification } from "antd";
 import { Slide } from "react-awesome-reveal";
-import Loader from "../Loader/Loader";
-import { useDispatch, useSelector } from 'react-redux'
-import { AddToCard } from "@/app/api/Front/order";
 import { useRouter } from "next/navigation";
 import { LuShoppingCart } from "react-icons/lu";
 import ProductDetails from "@/app/components/Global/ProductDetailsModal/ProductDetailsModal"
 import GlobalRating from "../GlobalRating/GlobalRating";
-import { FaWhatsapp } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 
 type Props = {
@@ -50,7 +45,7 @@ function SliderCart({ data, title, category_id }: Props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const { data: session } = useSession();
 
-   
+
   const handleHover = (_id: any) => {
     setDetails(true)
     setIdDetails(_id)
@@ -87,13 +82,13 @@ function SliderCart({ data, title, category_id }: Props) {
     // }
 
   }
- 
+
 
   useEffect(() => {
     if (session?.user) {
       if ((session.user as any).user_role === "admin") {
         setIsAdmin(true);
-      }else{
+      } else {
         setIsAdmin(false)
       }
     }
@@ -273,7 +268,6 @@ function SliderCart({ data, title, category_id }: Props) {
               onCancel={() => setOpenProductDetails(false)}
               okButtonProps={{ style: { display: "none" } }}
               cancelButtonProps={{ style: { display: "none" } }}
-              // styles={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }} 
               className="custom-modal"
             >
               <ProductDetails data={selectedProduct} openProductDetails={openProductDetails} setOpenProductDetails={setOpenProductDetails} />

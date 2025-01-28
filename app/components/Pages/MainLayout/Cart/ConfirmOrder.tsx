@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Card, Form, Input, notification, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { useRouter } from "next/navigation";
-// import { ConfirmOrder } from "@/app/api/order";
 import Loader from "@/app/components/Global/Loader/Loader";
 import axios from "axios";
 
@@ -19,7 +18,7 @@ type FieldType = {
   building_no: string,
   flat_no?: string;
 };
-function ConfirmOrderCom({ data }: any) {
+function ConfirmOrderCom() {
   const [form] = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

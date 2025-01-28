@@ -3,10 +3,9 @@ import { useState } from "react";
 import Loader from "@/app/components/Global/Loader/Loader";
 import { Checkbox, Form, Input, notification, Modal, Select } from "antd";
 import Link from "next/link";
-import { Register } from "@/app/api/Front/auth";
+import { Register, RegisterData } from "@/app/api/Front/auth";
 import { useRouter } from "next/navigation";
 import OTPPopup from "@/app/components/Pages/Auth/Change-password/OTPPopup/OTPPopup";
-import Cookies from "js-cookie";
 import { user_rols } from "@/utils/constant";
 
 type FieldType = {
@@ -24,21 +23,15 @@ function FormComponent() {
   const { push } = useRouter();
   const onFinish = (data: FieldType) => {
     setIsLoading(true);
-    const newData = {
-      name:data.name,
-      email:data.email,
-      password:data.password,
-      user_role:data.userRole
+    const newData: RegisterData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      user_role: data.userRole
     }
     Register(newData)
       .then((res) => {
-        if (res?.data?.message == "the user exists already") {
-          notification.error({
-            message: res?.data?.message,
-          });
-        } else {
-          setOpenVerifyPopup(true);
-        }
+        setOpenVerifyPopup(true);
       })
       .catch((err: any) => {
         console.log(err);
@@ -189,7 +182,7 @@ function FormComponent() {
           setOpenVerifyPopup(false);
           push("/auth/login");
         }}
-        cancelButtonProps={{style:{display:"none"}}}
+        cancelButtonProps={{ style: { display: "none" } }}
         width={650}
       >
         <OTPPopup setOpenVerifyPopup={setOpenVerifyPopup} />

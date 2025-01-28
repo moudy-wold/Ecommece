@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { notification, Radio } from "antd";
 import { LuShoppingCart } from "react-icons/lu";
-import { AddToCard } from "@/app/api/Front/order";
 import Loader from "@/app/components/Global/Loader/Loader"
 import { useDispatch } from "react-redux"
 import { setCart } from "@/app/lib/todosSlice"
@@ -31,7 +30,6 @@ function ProductDetailsModal(props: any) {
         color: ["black", "red", "green", "blue", "yellow"]
     }
     const AddProductToCard = async (id: string) => {
-        // دالة ترتيب الكائن
         const sortObjectByKeys = (obj: any) => {
             const sortedKeys = Object.keys(obj).sort(); 
             const sortedObject: any = {};

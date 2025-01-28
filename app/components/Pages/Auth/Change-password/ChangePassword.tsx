@@ -1,5 +1,4 @@
 'use client';
-// import { ForgetPass } from "@/app/api/Front/auth";
 import Loader from '@/app/components/Global/Loader/Loader';
 import { Alert, Form, Input, Modal, notification } from 'antd';
 import Link from 'next/link';

@@ -11,10 +11,10 @@ const config: Config = {
       center: true,
       padding: "1rem",
       screens: {
-        sm: "100%", // Small screens (e.g., phones)
-        md: "720px", // Medium screens (e.g., tablets)
-        lg: "1024px", // Large screens (e.g., laptops)
-        xl: "1280px", // Extra-large screens (e.g., desktops)
+        sm: "100%", 
+        md: "720px", 
+        lg: "1024px", 
+        xl: "1280px", 
         "2xl": "1440px",
         "3xl": "1620px",
       },

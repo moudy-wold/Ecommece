@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Loader from "@/app/components/Global/Loader/Loader";
-import { DeleteProductById, GetProductsByCategory } from "@/app/api/Front/products";
+import { DeleteProductById, GetProductsByCategory, Product } from "@/app/api/Front/products";
 import { Space, Table, Modal, Button, notification } from "antd";
 import moment from "moment";
 import { ColumnsType } from "antd/es/table";
@@ -114,9 +114,9 @@ function ProductsList({ category_id }: any) {
         },
     ];
     const tableData = data?.map((item: any) => ({
-        key: item._id, // <-- أضف هذه الخاصية
+        key: item._id,
         id: item._id,
-        image : item.image,
+        image: item.image,
         name: item.name,
         description: item.description,
         createdDate: moment(item.createdAt).locale("en").format("DD/MM/YYYY"),

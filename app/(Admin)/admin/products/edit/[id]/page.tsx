@@ -5,7 +5,8 @@ interface PageParams {
   id: string;
 }
 
-export default async function Page({ params: { id } }: { params: PageParams }) {
+export default async function Page({ params }: { params: any }) {
+  const { id } = params;
 
   return (
     <div>
@@ -13,4 +14,3 @@ export default async function Page({ params: { id } }: { params: PageParams }) {
     </div>
   )
 }
-

@@ -47,13 +47,13 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
       {
-        protocol: 'https',
-        hostname: '**',
+        protocol: "https",
+        hostname: "**",
       },
     ],
   },
   eslint: {
-    ignoreDuringBuilds: true, // تعطيل التدقيق أثناء البناء
+    ignoreDuringBuilds: true,
   },
   output: "standalone",
 };

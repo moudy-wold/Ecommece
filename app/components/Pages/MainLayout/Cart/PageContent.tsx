@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import { Modal, notification } from "antd";
-// import { GetAllProductsFromCard } from "@/app/api/order";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -12,9 +11,6 @@ const ConfirmOrder = dynamic(() => import("./ConfirmOrder"), { ssr: false })
 
 function CartContent() {
   const router = useRouter();
-  const { card_System, repair_Service_System } = useSelector(
-    (state: any) => state.counter
-  );
   const [openConfirmOrder, setOpenConfirmOrder] = useState(false);
   const [deleteItem, setDeleteItem] = useState(false);
   const [data, setData] = useState<any>([]);
@@ -31,7 +27,7 @@ function CartContent() {
 
   useEffect(() => {
     if (!session) {
-      router.push("/auth/login");  
+      router.push("/auth/login");
     }
   }, [session]);
 
@@ -66,7 +62,7 @@ function CartContent() {
         return acc + item.quantity;
       }, 0)
     );
-  }, [data, refreshCounte,cart]);
+  }, [data, refreshCounte, cart]);
 
   useEffect(() => {
     setTotalPrice(
@@ -138,11 +134,11 @@ function CartContent() {
           </div>
           <div className="mt-8">
             <button
-            disabled={cart.length ==0 ? true :false}
+              disabled={cart.length == 0 ? true : false}
               onClick={() => {
                 setOpenConfirmOrder(true);
               }}
-              className={`${cart.length == 0 ? "cursor-not-allowed " :"cursor-pointer"} w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer`}
+              className={`${cart.length == 0 ? "cursor-not-allowed " : "cursor-pointer"} w-full rounded-xl pb-2 pt-[4px] text-2xl font-semibold text-white bg-[#006496] border-2 border-[#006496] hover:text-[#006496] hover:bg-white  transition-all duration-150 cursor-pointer`}
             >
               Confirme Order
             </button>{" "}
@@ -162,7 +158,7 @@ function CartContent() {
               style: { backgroundColor: "#4096ff", display: "none" },
             }}
           >
-            <ConfirmOrder data={data} />
+            <ConfirmOrder />
           </Modal>
         }
       </div>

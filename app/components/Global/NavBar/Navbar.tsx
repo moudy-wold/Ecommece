@@ -134,7 +134,6 @@ function Navbar() {
         <div className="flex items-center ">
           <Link href="/" className="mr-2">
             <Image
-              // src={infoData?.data?.logo != "" && infoData?.data?.logo != undefined ? infoData?.data?.logo : "/assets/logo.png"}
               src={"/assets/logo.png"}
               height={154}
               width={154}

@@ -10,13 +10,13 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials:any) {
+      async authorize(credentials: any) {
         try {
           const res = await Login({
             email: credentials?.email,
             password: credentials?.password,
           });
-          const user:any = res.data;
+          const user: any = res.data;
           if (user && user.token) {
             return {
               id: user.id,
@@ -60,8 +60,8 @@ const handler = NextAuth({
   },
   secret: process.env.JWT_SECRET,
   jwt: {
-    secret: process.env.JWT_SECRET, // نفس السر للتشفير
-    maxAge: 30 * 60, // مدة صلاحية التوكن بالثواني (30 دقيقة)
+    secret: process.env.JWT_SECRET,
+    maxAge: 30 * 60,
   },
 });
 

@@ -4,7 +4,7 @@ interface PageParams {
     id?: string;
 }
 
-export default async function Page({ params: { id } }: { params: PageParams }) {
+export default async function Page({ params: { id } }: any) {
     return (
         <div>
             <ProductsList category_id={id} />

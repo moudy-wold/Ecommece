@@ -15,11 +15,11 @@ interface LoginData {
   password: string;
 }
 
-interface RegisterData {
+export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  user_rols: string;
+  user_role: string;
 }
 
 type LoginRes = {

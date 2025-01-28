@@ -5,7 +5,6 @@ const CategorySchema = new mongoose.Schema({
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 });
 
-// تأكد من تسجيل الموديل
 const Category = mongoose.models.Category || mongoose.model("Category", CategorySchema);
 
 export default Category;

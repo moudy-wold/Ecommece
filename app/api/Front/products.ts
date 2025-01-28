@@ -9,7 +9,6 @@ export type Product = {
   image: string;
   category: string;
 };
-// FOR ADMINS
 
 export async function GetAllProducts(): Promise<AxiosResponse<Product[]>> {
   return await axios.get("/products");
@@ -41,6 +40,6 @@ export async function DeleteProductById(
 export async function GetProductsByCategory(
   id: string | null | number,
   page?: number
-): Promise<AxiosResponse<Product[]>> {
+): Promise<AxiosResponse<any>> {
   return await axios.get(`/products?categoryId=${id}`);
 }

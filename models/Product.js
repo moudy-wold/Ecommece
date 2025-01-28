@@ -8,7 +8,6 @@ const ProductSchema = new mongoose.Schema({
   category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
 });
 
-// تأكد من تسجيل الموديل
 const Product = mongoose.models.Product || mongoose.model("Product", ProductSchema);
 
 export default Product;

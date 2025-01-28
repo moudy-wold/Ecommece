@@ -6,36 +6,36 @@ import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 
-// تعطيل المعالج الافتراضي للبيانات في Next.js
+
 export const config = {
   api: {
-    bodyParser: false, // لتعطيل المعالج الافتراضي للبيانات
+    bodyParser: false, 
   },
 };
 
-// دالة لجلب المنتجات
+
 export async function GET(req: any) {
   try {
     await connectDB();
     console.log("Connected to MongoDB from Get");
 
-    // استخراج معرف القسم من استعلام الطلب
+    
     const url = new URL(req.url);
     const category = url.searchParams.get("category");
 
     let products;
     if (category) {
-      // التحقق من صحة معرف القسم
+      
       if (!mongoose.Types.ObjectId.isValid(category)) {
         return new Response(JSON.stringify({ error: "Invalid Category ID" }), {
           status: 400,
         });
       }
 
-      // جلب المنتجات الخاصة بالقسم
+      
       products = await Product.find({ category });
     } else {
-      // جلب جميع المنتجات إذا لم يتم تحديد القسم
+      
       products = await Product.find({});
     }
 
@@ -55,7 +55,7 @@ export async function POST(req: any) {
     const body = await req.json();
     const { name, price, description, image, category } = body;
 
-    // التحقق من الحقول المطلوبة
+    
     if (!name || !price || !description || !category) {
       return new Response(
         JSON.stringify({
@@ -65,7 +65,7 @@ export async function POST(req: any) {
       );
     }
 
-    // التحقق من صحة معرف القسم
+    
     if (!mongoose.Types.ObjectId.isValid(category)) {
       return new Response(JSON.stringify({ error: "Invalid Category ID" }), {
         status: 400,
@@ -77,7 +77,7 @@ export async function POST(req: any) {
         status: 404,
       });
     }
-    // إنشاء المنتج
+    
     const newProduct = new Product({
       name,
       price,
@@ -86,10 +86,10 @@ export async function POST(req: any) {
       category,
     });
 
-    // حفظ المنتج في قاعدة البيانات
+    
     await newProduct.save();
 
-    // تحديث القسم المرتبط بإضافة المنتج إليه
+    
     await Category.findByIdAndUpdate(category, {
       $push: { products: newProduct._id },
     });

@@ -4,7 +4,6 @@ import OtpInput from "react-otp-input";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { Form, Input, notification } from "antd";
-// import { ConfirmOTP, ResendOTP, ResetPass } from "@/app/api/Front/auth";
 import { useForm } from "antd/es/form/Form";
 import Loader from "@/app/components/Global/Loader/Loader";
 
@@ -255,7 +254,6 @@ const OTPPopup = (props: any) => {
             </button>
           </div> */}
           <button
-            // onClick={handleConfirm}
             type="submit"
             className="w-full bg-[#006496] text-white font-bold text-xl lg:text-2xl  rounded-xl flex items-center justify-center pb-2 pt-2 hover:text-[#006496] hover:bg-white border-2 border-[#006496] transition-all duration-150"
           >

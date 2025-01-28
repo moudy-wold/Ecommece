@@ -4,12 +4,12 @@ import connectDB from "@/config/connectDB";
 export async function PUT(req: any, { params }: any) {
   await connectDB();
 
-  const { id } = params; // الحصول على ID المنتج من الرابط
-  const updatedData = await req.json(); // بيانات التحديث من الطلب
+  const { id } = params;
+  const updatedData = await req.json();
 
   try {
     const product = await Product.findByIdAndUpdate(id, updatedData, {
-      new: true, // إعادة المنتج بعد التحديث
+      new: true,
     });
 
     if (!product) {
@@ -32,7 +32,7 @@ export async function PUT(req: any, { params }: any) {
 export async function DELETE(req: any, { params }: any) {
   await connectDB();
 
-  const { id } = params; // الحصول على ID المنتج من الرابط
+  const { id } = params;
 
   try {
     const product = await Product.findByIdAndDelete(id);
@@ -56,10 +56,10 @@ export async function DELETE(req: any, { params }: any) {
 export async function GET(req: any, { params }: any) {
   await connectDB();
 
-  const { id } = params; // الحصول على ID المنتج من الرابط
+  const { id } = params;
 
   try {
-    const product = await Product.findById(id); // جلب المنتج باستخدام الـ id
+    const product = await Product.findById(id);
 
     if (!product) {
       return new Response(JSON.stringify({ message: "المنتج غير موجود" }), {

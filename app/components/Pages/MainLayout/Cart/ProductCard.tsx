@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-// import { UpdateQuantity } from "@/app/api/order";
 import Image from "next/image";
 import Loader from "@/app/components/Global/Loader/Loader";
 import { notification, Space, Spin } from "antd";
@@ -9,8 +8,6 @@ import { decreaseQuantity, deleteItemFromCart, increaseQuantity } from "@/app/li
 import { useDispatch } from "react-redux";
 function ProductCard({
   data,
-  deleteItem,
-  setDeleteItem,
   refreshCounte,
   setRefreshCounte,
   setInc,
