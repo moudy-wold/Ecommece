@@ -25,31 +25,45 @@ function ProductDetailsModal(props: any) {
     const handleClick = (label: string, value: string) => {
         setDetails((prevState: any) => ({ ...prevState, [label]: value }));
     };
-
+    
     const options = {
         size: ["34", "36", "38", "40", "42"],
         color: ["black", "red", "green", "blue", "yellow"]
     }
     const AddProductToCard = async (id: string) => {
+        // دالة ترتيب الكائن
+        const sortObjectByKeys = (obj: any) => {
+            const sortedKeys = Object.keys(obj).sort(); 
+            const sortedObject: any = {};
+            sortedKeys.forEach((key) => {
+                sortedObject[key] = obj[key];
+            });
+            return sortedObject;
+        };
+    
         if (!session) {
             router.push("/auth/login");
+            return;  
         }
-
+    
         if (Object.keys(details).length < Object.keys(options).length) {
             return notification.error({
-                message: "please Select"
-            })
+                message: "please Select",
+            });
         }
-        setIsLoading(true)
-        const newData = { ...props.data, details, quantity: 1 }
+    
+        const sortedDetails = sortObjectByKeys(details);
+    
+        setIsLoading(true);
+        const newData = { ...props.data, details: sortedDetails, quantity: 1 };
         setTimeout(() => {
             notification.success({
                 message: "Product added to cart",
             });
-            dispatch(setCart(newData))
-            setIsLoading(false)
-            props.setOpenProductDetails(false)
-        }, 500)
+            dispatch(setCart(newData));
+            setIsLoading(false);
+            props.setOpenProductDetails(false);
+        }, 400);
         // setIsLoading(true)
         // const datas = {
         //     product_id: id,

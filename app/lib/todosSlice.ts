@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface CartItem {
-  id: number;
+  _id: number;
   name: string;
   price: number;
   category: string;
@@ -19,7 +19,7 @@ export const counterSlice = createSlice({
   reducers: {
     setCart: (state, action) => {
       const existingItem = state.cart.find(
-        (item) =>
+        (item:CartItem) =>
           item._id === action.payload._id &&
           JSON.stringify(item.details) === JSON.stringify(action.payload.details)
       );
@@ -31,11 +31,14 @@ export const counterSlice = createSlice({
     },
     
     deleteItemFromCart: (state, action) => {
-      state.cart = state.cart.filter((item) => item._id !== action.payload._id && item.details !== action.payload.details);
-    },
+      state.cart = state.cart.filter((item:CartItem) => {
+          return item._id !== action.payload._id || JSON.stringify(item.details) !== JSON.stringify(action.payload.details);
+      });
+  },
+  
     increaseQuantity: (state, action) => {
       const item = state.cart.find(
-        (item) =>
+        (item:CartItem) =>
           item._id === action.payload._id &&
           JSON.stringify(item.details) === JSON.stringify(action.payload.details)
       );
@@ -46,7 +49,7 @@ export const counterSlice = createSlice({
     },
     decreaseQuantity: (state, action) => {
       const item = state.cart.find(
-        (item) =>
+        (item:CartItem) =>
           item._id === action.payload._id &&
           JSON.stringify(item.details) === JSON.stringify(action.payload.details)
       );

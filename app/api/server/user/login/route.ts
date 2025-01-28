@@ -1,15 +1,14 @@
 import connectDB from "@/config/connectDB";
-import User from "@/models/User"; // موديل المستخدمين
-import jwt from "jsonwebtoken"; // لإنشاء التوكن
-import bcrypt from "bcryptjs"; // لمقارنة كلمات المرور
+import User from "@/models/User"; 
+import jwt from "jsonwebtoken"; 
+import bcrypt from "bcryptjs"; 
 
 export async function POST(req: any) {
   try {
     await connectDB();
 
-    const { email, password } = await req.json(); // قراءة البيانات من الطلب
-
-    // البحث عن المستخدم في قاعدة البيانات
+    const { email, password } = await req.json(); 
+    
     const user = await User.findOne({ email });
     if (!user) {
       return new Response(
@@ -18,7 +17,6 @@ export async function POST(req: any) {
       );
     }
 
-    // التحقق من كلمة المرور المشفرة
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return new Response(
@@ -27,12 +25,11 @@ export async function POST(req: any) {
       );
     }
 
-    // إنشاء التوكن (JWT)
     if (!process.env.JWT_SECRET) {
       throw new Error("JWT_SECRET is not defined in environment variables");
     }
     const token = jwt.sign(
-      { id: user._id, name: user.name, user_role: user.user_role }, // تضمين user_role
+      { id: user._id, name: user.name, user_role: user.user_role }, 
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
@@ -41,7 +38,7 @@ export async function POST(req: any) {
       JSON.stringify({
         message: "Login successful",
         token,
-        user_role: user.user_role, // إرجاع user_role مع التوكن
+        user_role: user.user_role,  
       }),
       { status: 200 }
     );

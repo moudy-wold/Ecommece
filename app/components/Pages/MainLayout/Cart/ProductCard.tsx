@@ -205,18 +205,17 @@ function ProductCard({
 
           {/* Start Details */}
           <div className="flex items-center justify-between w-1/2 my-1">
-            {arrayOfObjects.map((item:any , index:number) => {
+            {arrayOfObjects.map((item:{label:string,value:string} , index:number) => {
               return (
                 <div
                   className="flex items-center bg-white border-gray-300 border-2 rounded-md mx-2"
                   key={index}
                 >
-                  <span className="p-2 text-base lg:text-lg ">
-                    {item.value}
-                  </span>
                   <span className=" p-2 text-lg lg:text-xl text-[#006496]">
                     {item.label}
-
+                  </span>
+                  <span className="p-2 text-base lg:text-lg ">
+                    {item.value}
                   </span>
                 </div>
               );

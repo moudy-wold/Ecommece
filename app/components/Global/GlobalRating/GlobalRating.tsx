@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-function GlobalRating({average_rating}:any) {
-    const [ratingMarge, setRatingMarge] = useState([false, false, false, false, false])    
+type Props = {
+    average_rating: number
+}
+
+function GlobalRating({ average_rating }: Props) {
+    const [ratingMarge, setRatingMarge] = useState([false, false, false, false, false])
     useEffect(() => {
         const updatedMarge = ratingMarge.map((_, index) => index < average_rating);
         setRatingMarge(updatedMarge);
@@ -10,7 +14,7 @@ function GlobalRating({average_rating}:any) {
     return (
         <div>
             <ul className="flex gap-1 ">
-                {ratingMarge?.map((item: any ,index:number) => (
+                {ratingMarge?.map((item: any, index: number) => (
                     <li className="" key={index}>
 
                         {item ?

@@ -11,7 +11,6 @@ interface RootLayoutProps {
 function AdminLayout({ children }: RootLayoutProps) {
     const router = useRouter()
     const { data: session } = useSession();
-
     useEffect(() => {
         setTimeout(()=>{
             if (session?.user) {
@@ -21,7 +20,7 @@ function AdminLayout({ children }: RootLayoutProps) {
             }else{
                 router.push("/")
             }
-        },1000)
+        },2000)
     }, [session]);
     return (
         <div className="grid lg:grid-cols-[20%_78%] gap-4  " >

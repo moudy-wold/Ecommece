@@ -10,13 +10,13 @@ const handler = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      async authorize(credentials:any) {
         try {
           const res = await Login({
             email: credentials?.email,
             password: credentials?.password,
           });
-          const user = res.data;
+          const user:any = res.data;
           if (user && user.token) {
             return {
               id: user.id,

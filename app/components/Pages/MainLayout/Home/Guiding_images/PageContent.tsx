@@ -27,9 +27,9 @@ function BennerImages() {
                 <Image
                   src={item.image}
                   width={650}
-                  height={300}
+                  height={280}
                   alt="guiding image"
-                  className="!w-[650] !h-[300] rounded-lg object-fill"
+                  className=" !h-[280px] rounded-lg object-fill"
                 />
               </Link>
             </div>
