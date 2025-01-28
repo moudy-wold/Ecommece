@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Challenges and Solutions:
+This was my first time working on backend development, which presented some technical challenges. However, I put in significant effort to ensure the system functions efficiently on a local environment.
 
-## Getting Started
+Unable to publish live: Since I am unable to upload the backend due to my current level of experience, the project is currently running locally npm run dev.
 
-First, run the development server:
+Image Management:
+For now, product images are added as links instead of files. However, I have prepared the frontend to handle file uploads if this feature is implemented later.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+I have completed the task as per the requirements using the following technologies:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Frontend & Backend: Next.js (App Route)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Database: MongoDB (with Mongoose)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+State Management: Redux
 
-## Learn More
+Authentication: Next-auth
 
-To learn more about Next.js, take a look at the following resources:
+Payment: Stripe (for testing purposes)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Product Management:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Created an admin dashboard to add, edit, or delete products.
 
-## Deploy on Vercel
+Designed a frontend interface to display products dynamically.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Note: Currently, due to my lack of backend experience, product images are added as links (not files), but the frontend is ready to handle file uploads if this feature is developed further.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Shopping Cart:
+
+Implemented functionality for users to add products to the cart, update quantities, or remove items.
+
+Used Redux to manage the cart state centrally.
+
+Checkout Process:
+Integrated a test payment process using Stripe. Users are redirected to a payment page to complete the transaction.
+
+Note: While the payment flow could have been implemented directly on the frontend, I chose to redirect users to ensure a secure and seamless payment experience.
